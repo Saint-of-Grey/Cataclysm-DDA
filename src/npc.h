@@ -227,7 +227,10 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024
+    avoid_combat = 1024,
+    avoid_doors = 2048,
+    hold_the_line = 4096,
+    ignore_noise = 8192
 };
 const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "use_guns", ally_rule::use_guns },
@@ -240,7 +243,10 @@ const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
         { "allow_complain", ally_rule::allow_complain },
         { "allow_pulp", ally_rule::allow_pulp },
         { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat }
+        { "avoid_combat", ally_rule::avoid_combat },
+        { "avoid_doors", ally_rule::avoid_doors },
+        { "hold_the_line", ally_rule::hold_the_line },
+        { "ignore_noise", ally_rule::ignore_noise }
     }
 };
 
@@ -568,10 +574,7 @@ class npc : public player
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
         std::string opinion_text() const;
-
-        // Goal / mission functions
-        bool fac_has_value( faction_value value ) const;
-        bool fac_has_job( faction_job job ) const;
+        int faction_display( const catacurses::window &fac_w, const int width ) const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -750,7 +753,9 @@ class npc : public player
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        bool can_open_door( const tripoint &p, const bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+
         // nomove is used to resolve recursive invocation
         void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
         void move_to_next(); // Next in <path>
@@ -953,7 +958,7 @@ class npc : public player
                                     const std::string &mission_id, const tripoint &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        cata::optional<tripoint> get_mission_destination();
+        cata::optional<tripoint> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att );
