@@ -6189,5 +6189,15 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "CHAOTIC_GOOD",
+    "name": "Genetic Flux",
+    "points": 12,
+    "valid" : false,
+    "description": "The events of the Cataclysm have left your DNA in a strange flux, causing you to constantly mutate. The body you go to sleep with is very different from the one you wake up with. These mutations seem to be more good than bad, however.",
+    "starting_trait": true,
+    "cancels": [ "CHAOTIC_BAD", "CHOATIC", "ROBUST" ]
   }
 ]

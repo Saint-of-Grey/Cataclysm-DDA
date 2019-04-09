@@ -21,6 +21,7 @@ const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
+static const trait_id trait_CHAOTIC_GOOD( "CHAOTIC_GOOD" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -567,9 +568,10 @@ void player::mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
-    if( has_trait( trait_ROBUST ) && force_bad ) {
+    if( has_trait( trait_ROBUST ) || has_trait( trait_CHAOTIC_GOOD ) && force_bad ) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
+        // Genetic Flux confers the benefits of Robust.
         force_bad = false;
         force_good = true;
     }
@@ -671,8 +673,8 @@ void player::mutate()
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with empty category
-        // CHAOTIC_BAD lets the game pull from any category by default
-        if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
+        // CHAOTIC_BAD and CHAOTIC_GOOD lets the game pull from any category by default
+        if( !first_pass || has_trait( trait_CHAOTIC_BAD ) || has_trait( trait_CHAOTIC_GOOD ) ) {
             cat.clear();
         }
 
