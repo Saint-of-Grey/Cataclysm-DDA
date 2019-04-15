@@ -519,7 +519,7 @@
     "points": 3,
     "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
     "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
+    "cancels": [ "CHAOTIC_BAD", "CHAOTIC_GOOD" ],
     "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ]
   },
   {
@@ -1233,7 +1233,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
     "starting_trait": true,
-    "cancels": [ "ROBUST" ],
+    "cancels": [ "ROBUST", "CHAOTIC_GOOD" ],
     "valid": false
   },
   {
@@ -4780,7 +4780,8 @@
     "mixed_effect": true,
     "description": "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
     "changes_to": [ "CHAOTIC" ],
-    "category": [ "SLIME", "MEDICAL", "CHIMERA" ]
+    "category": [ "SLIME", "MEDICAL", "CHIMERA" ],
+    "cancels": [ "CHAOTIC_GOOD" ]
   },
   {
     "type": "mutation",
@@ -4790,7 +4791,8 @@
     "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
     "prereqs": [ "UNSTABLE", "MUT_JUNKIE" ],
-    "category": [ "CHIMERA" ]
+    "category": [ "CHIMERA" ],
+    "cancels": [ "CHAOTIC_GOOD" ]
   },
   {
     "type": "mutation",
