@@ -1784,18 +1784,27 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 fm.emplace_back( string_format( "%s (%i)", e.second.tname(), e.second.qty ) );
             }
         }
-        if( mod.reload_modifier != 1.0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
+        if( !fm.empty() ) {
+            insert_separation_line( info );
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ) +
+                               enumerate_as_string( fm ) );
+        }
+
+        if( mod->type->gunmod->reload_modifier != 1.0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
             info.emplace_back( "GUNMOD", _( "Reload modifier: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better,
-                               mod.reload_modifier );
+                               mod->type->gunmod->reload_modifier );
         }
-        if( mod.min_str_required_mod != 1.0 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
+        if( mod->type->gunmod->min_str_required_mod != 1.0 &&
+            parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
             info.emplace_back( "GUNMOD", _( "Minimum strength required modifier: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               mod.min_str_required_mod );
+                               mod->type->gunmod->min_str_required_mod );
         }
-        if( !mod.add_mod.empty() && parts->test( iteminfo_parts::GUNMOD_ADD_MOD ) ) {
-            insert_separation_line();
+        if( !mod->type->gunmod->add_mod.empty() && parts->test( iteminfo_parts::GUNMOD_ADD_MOD ) ) {
+            insert_separation_line( info );
+        }
+    }
 
     if( !magazine_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_MAGAZINES ) ) {
         insert_separation_line( info );
